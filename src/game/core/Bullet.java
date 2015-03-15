@@ -5,17 +5,19 @@ public class Bullet {
 	private GameQuad mesh;
 	
 	private float dx, dy, size;
-	private int bullet;
+	private int bullet, dmg;
 	private GameCore core;
 	
 	
-	public Bullet(GameCore core, float x, float y, float size, float dx, float dy) {
+	public Bullet(GameCore core, float x, float y, int size, float dx, float dy, int dmg) {
 		mesh = new GameQuad(x, y, size, size).setColor(0, 0, 0);
 		this.core = core;
 		this.dx = dx;
-		this.dy = dy;	
+		this.dy = dy;
+		this.dmg = dmg;
 	}
 	
+
 	public void draw() {
 		mesh.draw();	
 	}
@@ -27,12 +29,7 @@ public class Bullet {
 		if(mesh.getY() + mesh.getHeight() < 0) {
 			core.removeBullet(this);
 		}
-		if(mesh.getY() + mesh.getHeight() > core.getPlayer().getY() + core.getPlayer().getHeight() && mesh.getX() + mesh.getHeight() > core.getPlayer().getY() + core.getPlayer().getHeight()){
-			core.getPlayer().setColor(1, 0, 0);
-		}
-		else {
-			core.getPlayer().setColor(0, 1, 1);
-		}
+		 core.colision(mesh, core.getPlayer(), dmg);
 	}
 	public GameQuad getMesh() {
 		return this.mesh;
