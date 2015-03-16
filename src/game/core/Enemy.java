@@ -51,7 +51,11 @@ public class Enemy {
 		if(enemyMesh.getX() + enemyMesh.getWidth() < 0 || enemyMesh.getX() + enemyMesh.getWidth() > core.width) {
 			core.removeEnemy(this);
 		}
+<<<<<<< HEAD
 		System.out.println(hp);
+=======
+		core.colision(enemyMesh, core.getPlayer(), damage);
+>>>>>>> origin/master
 	}
 	
 	public void draw() {
