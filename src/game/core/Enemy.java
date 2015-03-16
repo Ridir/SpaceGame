@@ -1,10 +1,10 @@
 package game.core;
 
 public class Enemy {
-	private int damage, size, speed, hp, bullet;
+	public static int damage, size, speed, hp, bullet;
 	private String name, pattern, type;
 	private float x, y, time;
-	private GameQuad enemyMesh;
+	public GameQuad enemyMesh;
 	private GameCore core;
 	private boolean right;
 	
@@ -19,6 +19,7 @@ public class Enemy {
 		this.speed = speed;
 		this.core = core;
 		this.hp = hp;
+		this.enemyMesh = enemyMesh;
 		
 		enemyMesh = new GameQuad(x, y, size, size).setColor(1, 0.5f, 0);
 		
@@ -50,11 +51,16 @@ public class Enemy {
 		if(enemyMesh.getX() + enemyMesh.getWidth() < 0 || enemyMesh.getX() + enemyMesh.getWidth() > core.width) {
 			core.removeEnemy(this);
 		}
+		System.out.println(hp);
 	}
 	
 	public void draw() {
 		enemyMesh.draw();
 		
+	}
+	
+	public GameQuad getMesh() {
+		return enemyMesh;
 	}
 	
 }

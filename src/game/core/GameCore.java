@@ -23,6 +23,11 @@ public class GameCore {
 	public static boolean running = true;
 	public long preT = System.nanoTime();
 	public double delta;
+	public double blink = 3;
+	private boolean hurt = false;
+	private int timer, timer2;
+	private double inv = 1.5;
+	public int playerhp;
 	
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Bullet> bulletTrash;
@@ -112,6 +117,25 @@ public class GameCore {
 			player.setY(0);
 		}
 		
+		if(hurt) {
+			timer += 1;
+			timer2 += 1;
+			if(timer == inv * FPS) {
+				player.setColor(0, 1, 1);
+				timer = 0;
+				timer2 = 0;
+				hurt = false;
+			}
+			if(timer2 == blink * 2) {
+				timer2 = 0;
+			}
+			else if(timer2 < blink) {
+				player.setColor(0, 0.7f, 1);
+			}
+			else if(timer2 > blink){
+				player.setColor(0.2f, 1, 1);
+			}
+		}
 	}
 	
 	private void render() {
@@ -133,7 +157,7 @@ public class GameCore {
 			enemyTrash = new ArrayList<>();
 			controls = new GameControls(this);
 			
-			player = new GameQuad(width/2, height, 40, 40).setColor(0, 1, 1);
+			player = new GameQuad(width/2, height, 40, 40).setColor(0, 0.7f, 1);
 			
 			Display.setTitle(title);
 			Display.setDisplayMode(new DisplayMode(width, height));
@@ -164,12 +188,22 @@ public class GameCore {
 		new GameCore();
 	}
 	
+	public void colision(GameQuad quad1, GameQuad quad2, int damage, int hp) {
+		if(quad1.getY() + quad1.getHeight() > quad2.getY() && quad1.getY() < quad2.getY() + quad2.getHeight() && quad1.getX() + quad1.getWidth() > quad2.getX() && quad1.getX() < quad2.getX() + quad2.getWidth()){
+			if(timer < 1)
+				hp -= hp;
+				if(quad2 == this.getPlayer())
+					hurt = true;
+		}
+	}
 	
 	public void shoot(int bullet) {
-		switch(bullet) {
-		case 1:this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 5, 15, 0, - 10));
-		case 2:this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 5, 15, 0, - 500));
-		case 3:this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 5, 15, 0, - 500));
-		}
+		if(bullet == 1) 
+			this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 15, 15, 0, - 1000, 1));
+		else if(bullet == 3)
+			this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 15, 30, 0, - 200, 3));
+		
+		else if(bullet == 2)
+			this.addBullet(new Bullet(this, this.getPlayer().getX() + this.getPlayer().getWidth() / 2 - (15 / 2), this.getPlayer().getY() - 15, 15, 0, 1000, 1));
 	}
 }
