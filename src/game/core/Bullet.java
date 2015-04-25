@@ -3,27 +3,17 @@ package game.core;
 public class Bullet {
 	
 	private GameQuad mesh;
-	
-	private float dx, dy, size;
-<<<<<<< HEAD
-	private int bullet, damage;
-=======
-	private int bullet, dmg;
->>>>>>> origin/master
+	private World wld;
 	private GameCore core;
-	private Enemy enemy;
+	private float dx, dy, size;
+	private int bullet, damage;
+	private int dmg;
 	
-	
-<<<<<<< HEAD
 	public Bullet(GameCore core, float x, float y, float size, float dx, float dy, int damage) {
-=======
-	public Bullet(GameCore core, float x, float y, int size, float dx, float dy, int dmg) {
->>>>>>> origin/master
 		mesh = new GameQuad(x, y, size, size).setColor(0, 0, 0);
 		this.core = core;
 		this.dx = dx;
 		this.dy = dy;
-		this.dmg = dmg;
 	}
 	
 
@@ -32,22 +22,30 @@ public class Bullet {
 	}
 	
 	public void update() {
-		mesh.addX((float)(dx * core.delta));
-		mesh.addY((float)(dy * core.delta));
-//		System.out.println(core.delta);
+		mesh.addX((float)(dx * wld.delta));
+		mesh.addY((float)(dy * wld.delta));
 		if(mesh.getY() + mesh.getHeight() < 0) {
-			core.removeBullet(this);
+			wld.removeBullet(this);
 		}
-<<<<<<< HEAD
-		core.colision(mesh, core.getPlayer(), damage, core.playerhp);
-//		core.colision(mesh, enemy.getMesh(), Enemy.damage, Enemy.hp);
-		System.out.println(mesh);
-		System.out.println(enemy.getMesh());
-		System.out.println(enemy.damage);
-		System.out.println(enemy.hp);
-=======
-		 core.colision(mesh, core.getPlayer(), dmg);
->>>>>>> origin/master
+		wld.drake(mesh, wld.getPlayer(), damage, core.playerhp);
+		
+		for(Enemy e : wld.getEnemies()) {
+			if(bullet == 1) {
+				dmg = 1;
+			}
+			else if(bullet == 2) {
+				dmg = 2;
+			}
+			else if(bullet == 3) {
+				dmg = 10;
+			}
+			if(GameQuad.isColliding(mesh, e.getMesh())) {
+				e.hp -= dmg;
+			}
+			if(e.getHP() <= 0) {
+				wld.removeEnemy(e);
+			}
+		}
 	}
 	public GameQuad getMesh() {
 		return this.mesh;

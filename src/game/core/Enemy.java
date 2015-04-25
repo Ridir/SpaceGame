@@ -1,12 +1,15 @@
 package game.core;
 
 public class Enemy {
+	
 	public static int damage, size, speed, hp, bullet;
 	private String name, pattern, type;
 	private float x, y, time;
 	public GameQuad enemyMesh;
 	private GameCore core;
+	private World wld;
 	private boolean right;
+	
 	
 	public Enemy(GameCore core, String name, int size, int damage, int bullet, float time, String pattern, boolean right, int speed, int hp) {
 		this.damage = damage;
@@ -46,16 +49,13 @@ public class Enemy {
 	}
 	
 	public void update() {
-		enemyMesh.addY((float)(speed * core.delta));
-		enemyMesh.addX((float)(speed / 6 * core.delta));
+		enemyMesh.addY((float)(speed * wld.delta));
+		enemyMesh.addX((float)(speed / 6 * wld.delta));
 		if(enemyMesh.getX() + enemyMesh.getWidth() < 0 || enemyMesh.getX() + enemyMesh.getWidth() > core.width) {
-			core.removeEnemy(this);
+			wld.removeEnemy(this);
 		}
-<<<<<<< HEAD
+		wld.drake(enemyMesh, wld.getPlayer(), damage, core.playerhp);
 		System.out.println(hp);
-=======
-		core.colision(enemyMesh, core.getPlayer(), damage);
->>>>>>> origin/master
 	}
 	
 	public void draw() {
@@ -67,4 +67,7 @@ public class Enemy {
 		return enemyMesh;
 	}
 	
+	public int getHP() {
+		return hp;
+	}
 }

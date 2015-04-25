@@ -82,4 +82,11 @@ public class GameQuad {
 		this.height = height;
 	}
 	
+	
+	public static final boolean isColliding(GameQuad quad1, GameQuad quad2) {
+		if(quad1.getY() + quad1.getHeight() > quad2.getY() && quad1.getY() < quad2.getY() + quad2.getHeight() && quad1.getX() + quad1.getWidth() > quad2.getX() && quad1.getX() < quad2.getX() + quad2.getWidth()) {
+			return true;
+		}
+		return false;
+	}
 }
