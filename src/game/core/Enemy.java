@@ -2,7 +2,7 @@ package game.core;
 
 public class Enemy {
 	
-	public static int damage, size, speed, hp, bullet;
+	public int damage, size, speed, hp, bullet;
 	private String name, pattern, type;
 	private float x, y, time;
 	public GameQuad enemyMesh;
@@ -11,7 +11,7 @@ public class Enemy {
 	private boolean right;
 	
 	
-	public Enemy(GameCore core, String name, int size, int damage, int bullet, float time, String pattern, boolean right, int speed, int hp) {
+	public Enemy(GameCore core, World wld, String name, int size, int damage, int bullet, float time, String pattern, boolean right, int speed, int hp) {
 		this.damage = damage;
 		this.name = name;
 		this.size = size;
@@ -22,12 +22,11 @@ public class Enemy {
 		this.speed = speed;
 		this.core = core;
 		this.hp = hp;
-		this.enemyMesh = enemyMesh;
+		this.wld = wld;
 		
-		enemyMesh = new GameQuad(x, y, size, size).setColor(1, 0.5f, 0);
+		enemyMesh = new GameQuad(x, y, size, size, "player");
 		
 		if(pattern == "side") {
-			System.out.println(1);
 			x = core.width / 8;
 			if(right) {
 				x = core.width - x;
@@ -54,8 +53,10 @@ public class Enemy {
 		if(enemyMesh.getX() + enemyMesh.getWidth() < 0 || enemyMesh.getX() + enemyMesh.getWidth() > core.width) {
 			wld.removeEnemy(this);
 		}
-		wld.drake(enemyMesh, wld.getPlayer(), damage, core.playerhp);
-		System.out.println(hp);
+		if(this.getHP() <= 0) {
+			
+			wld.removeEnemy(this);
+		}
 	}
 	
 	public void draw() {
@@ -69,5 +70,9 @@ public class Enemy {
 	
 	public int getHP() {
 		return hp;
+	}
+
+	public void damage(int d) {
+		hp -= d;
 	}
 }

@@ -6,77 +6,79 @@ public class GameControls {
 	
 	private GameCore core;
 	private World wld;
+	private Player player;
 	private double timer;
-	private Bullet bullet;
 	private int speed = 4;
 	private double freq = 0.25;
 	
 	
-	public GameControls(GameCore core) {
+	public GameControls(GameCore core, World wld) {
 		this.core = core;
+		this.wld = wld;
+		this.player = wld.getPlayer();
 	}
 	
 	
 	public void input() {
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-			wld.getPlayer().resize(1, 1);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
-			wld.getPlayer().resize(-1, -1);
-		}
+//		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+//			player.resize(1, 1);
+//		}
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
+//			player.resize(-1, -1);
+//		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			wld.getPlayer().addX((speed / 2));
-			wld.getPlayer().addY((speed / 2));
+			player.addX((speed / 2));
+			player.addY((speed / 2));
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			wld.getPlayer().addY(speed);
+			player.addY(speed);
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			wld.getPlayer().addX(speed);
+			player.addX(speed);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			wld.getPlayer().addX(-(speed / 2));
-			wld.getPlayer().addY((speed / 2));
+			player.addX(-(speed / 2));
+			player.addY((speed / 2));
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			wld.getPlayer().addY(speed);
+			player.addY(speed);
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			wld.getPlayer().addX(-speed);
+			player.addX(-speed);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			wld.getPlayer().addX((speed / 2));
-			wld.getPlayer().addY(-(speed / 2));
+			player.addX((speed / 2));
+			player.addY(-(speed / 2));
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			wld.getPlayer().addY(-speed);
+			player.addY(-speed);
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			wld.getPlayer().addX(speed);
+			player.addX(speed);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			wld.getPlayer().addX(-(speed / 2));
-			wld.getPlayer().addY(-(speed / 2));
+			player.addX(-(speed / 2));
+			player.addY(-(speed / 2));
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			wld.getPlayer().addX(-speed);
+			player.addX(-speed);
 		}
 		
 		else if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			wld.getPlayer().addY(-speed);
+			player.addY(-speed);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
@@ -96,13 +98,13 @@ public class GameControls {
 				switch(k) {
 				case Keyboard.KEY_ESCAPE: GameCore.running = false; break;
 				
-				case Keyboard.KEY_G: wld.getPlayer().setColor(0, 1, 1); break;
+//				case Keyboard.KEY_G: player.setColor(0, 1, 1); break;
+//				
+//				case Keyboard.KEY_H: player.setColor(1, 1, 0); break;
+//				
+//				case Keyboard.KEY_J: player.setColor(1, 0, 1); break;
 				
-				case Keyboard.KEY_H: wld.getPlayer().setColor(1, 1, 0); break;
-				
-				case Keyboard.KEY_J: wld.getPlayer().setColor(1, 0, 1); break;
-				
-				case Keyboard.KEY_K: wld.addEnemy(new Enemy(core, "Gunship", 30, 5, 1, 0, "side", true, 100, 2)); break;
+				case Keyboard.KEY_K: wld.addEnemy(new Enemy(core, wld, "Gunship", 30, 5, 1, 0, "side", true, 100, 2)); break;
 				
 				case Keyboard.KEY_SPACE: 
 					if(timer > freq) {

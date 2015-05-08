@@ -1,41 +1,46 @@
 package game.core;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.*;
 
 public class GameQuad {
 	
-	private float x, y, width, height, r = 1, g = 1, b = 1;
+	private float x, y, width, height;
+	private Texture texture;
 	
-	public GameQuad(float x, float y, float width, float height) {
+	public GameQuad(float x, float y, float width, float height, String texture) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		this.texture = TextureLib.get(texture);
 	}
 	
 	public void draw() {
+		
+		texture.bind();
+		
 		glBegin(GL_QUADS);
 		{
-			glColor3f(r, g, b);
+			glTexCoord2f(0, 0);
 			glVertex2f(x, y);
+			glTexCoord2f(1, 0);
 			glVertex2f(x + width, y);
+			glTexCoord2f(1, 1);
 			glVertex2f(x + width, y + height);
+			glTexCoord2f(0, 1);
 			glVertex2f(x, y + height);
 		}
 		glEnd();
 	}
 	
-	public GameQuad setColor(float r, float g, float b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		
-		return this;
-	}
+//	public GameQuad setColor(float r, float g, float b) {
+//		this.r = r;
+//		this.g = g;
+//		this.b = b;
+//		
+//		return this;
+//	}
 	
 	public void addX(float x) {
 		this.x += x;
